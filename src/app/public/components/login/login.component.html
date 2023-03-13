@@ -1,13 +1,13 @@
 <header class="header">
-  <a routerLink="/" class="logo"></a>
+  <a routerLink="" class="logo"></a>
   <div class="autorization-panel">
-    <a routerLink="login" class="signin">Log in</a>
-    <a routerLink="register" class="singup">Get Anvello for free</a>
+    <a routerLink="{{'../login'}}" class="signin">Log in</a>
+    <a routerLink="{{'../register'}}" class="singup">Get Anvello for free</a>
   </div>
 </header>
 
 <main class="main">
-  <a [routerLink]="['../register']">Go to Register</a>
+  <a routerLink="{{'../register'}}">Go to Register</a>
   <mat-card>
     <mat-card-title>Login</mat-card-title>
     <mat-card-content>
