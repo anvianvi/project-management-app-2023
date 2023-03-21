@@ -31,7 +31,7 @@ export class RegisterComponent {
     this.authService;
     this.authService
       .register(this.registerForm)
-      .pipe(tap(() => this.router.navigate(['../login'])))
+      .pipe(tap(() => this.router.navigate(['public/login'])))
       .subscribe();
   }
 }

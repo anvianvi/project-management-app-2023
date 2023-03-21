@@ -9,11 +9,13 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 import { JwtModule } from '@auth0/angular-jwt';
 
-// specify the key where the token is stored in the local storage
-export const LOCALSTORAGE_TOKEN_KEY =
-  'angular_material_login_and_register_example';
+export const backendDomain = `https://final-task-backend-production-25f3.up.railway.app/`;
+export const headers = new Headers({
+  'Content-Type': 'application/json',
+  'Authorization': `Bearer ${backendDomain}`,
+});
+export const LOCALSTORAGE_TOKEN_KEY = 'anvelloToken';
 
-// specify tokenGetter for the angular jwt package
 export function tokenGetter() {
   return localStorage.getItem(LOCALSTORAGE_TOKEN_KEY);
 }
@@ -24,9 +26,7 @@ export function tokenGetter() {
     BrowserModule,
     BrowserAnimationsModule,
     HttpClientModule,
-    // Import our Routes for this module
     AppRoutingModule,
-    // Angular Material Imports
     MatSnackBarModule,
     // Jwt Helper Module Import
     JwtModule.forRoot({
