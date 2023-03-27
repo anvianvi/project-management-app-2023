@@ -8,16 +8,12 @@ import { HttpClientModule } from '@angular/common/http';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 import { JwtModule } from '@auth0/angular-jwt';
+import { MatIconModule } from '@angular/material/icon';
 
 export const backendDomain = `https://final-task-backend-production-25f3.up.railway.app/`;
-export const headers = new Headers({
-  'Content-Type': 'application/json',
-  'Authorization': `Bearer ${backendDomain}`,
-});
-export const LOCALSTORAGE_TOKEN_KEY = 'anvelloToken';
 
 export function tokenGetter() {
-  return localStorage.getItem(LOCALSTORAGE_TOKEN_KEY);
+  return localStorage.getItem('auth_token');
 }
 
 @NgModule({
@@ -35,6 +31,7 @@ export function tokenGetter() {
         allowedDomains: ['localhost:3000', 'localhost:8080'],
       },
     }),
+    MatIconModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

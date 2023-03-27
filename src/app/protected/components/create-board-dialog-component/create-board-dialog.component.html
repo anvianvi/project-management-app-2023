@@ -1,0 +1,11 @@
+<h2 mat-dialog-title>Create new board</h2>
+<div mat-dialog-content>
+  <mat-form-field>
+    <mat-label>Name your new branch</mat-label>
+    <input matInput [(ngModel)]="data.title" placeholder="Title">
+  </mat-form-field>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="onCancelClick()">Cancel</button>
+  <button mat-button color="primary" (click)="onCreateClick()">Create new board</button>
+</div>

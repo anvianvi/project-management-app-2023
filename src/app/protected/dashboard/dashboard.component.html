@@ -1,8 +1,17 @@
-<p>Protected Dashboard works.</p>
+<header class='header'>
+  <a routerLink='' class='logo'></a>
+  <nav>
+    <a routerLink="protected/home" routerLinkActive="active">Home</a>
+    <!-- <a routerLink="/main/child2" routerLinkActive="active">Child 2</a> -->
+    <button mat-raised-button (click)="logout()">Logout (remove token from localstorage)</button>
+  </nav>
+</header>
 
-<a [routerLink]="['../../public/login']">Go back to Login</a>
-<br>
-<a [routerLink]="['../../public/register']">Go back to Register</a>
-<br>
-<br>
-<button mat-raised-button (click)="logout()">Logout (remove token from localstorage)</button>
+<main class="main">
+  <router-outlet></router-outlet>
+</main>
+
+<footer class='footer'>
+  <div>Created by <a href='https://github.com/anvianvi' target='_blank'>Pavel Viarbitsi</a> in March 2023 for <a
+      href='https://rs.school/angular/' target='_blank'>The Rolling Scopes</a></div>
+</footer>

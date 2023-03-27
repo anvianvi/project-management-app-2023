@@ -12,3 +12,12 @@ export interface RegisterResponse {
   name: string;
   login: string;
 }
+
+export interface UserResponse {
+  [index: number]: {
+    _id: string;
+    name: string;
+    login: string;
+  };
+  length: number;
+}

@@ -1,4 +1,4 @@
-import { backendDomain, LOCALSTORAGE_TOKEN_KEY } from './../../../app.module';
+import { backendDomain } from './../../../app.module';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { catchError, Observable, of, tap } from 'rxjs';
@@ -10,6 +10,7 @@ import {
   LoginResponse,
   RegisterResponse,
 } from '../../interfaces';
+import { ApiService } from '../../api';
 
 @Injectable({
   providedIn: 'root',
@@ -18,7 +19,8 @@ export class AuthService {
   constructor(
     private http: HttpClient,
     private snackbar: MatSnackBar,
-    private jwtService: JwtHelperService
+    private jwtService: JwtHelperService,
+    private apiService: ApiService
   ) {}
 
   login(loginRequest: LoginRequest): Observable<LoginResponse> {
@@ -40,9 +42,10 @@ export class AuthService {
           });
           return of(null as unknown as LoginResponse);
         }),
-        tap((res: LoginResponse) =>
-          localStorage.setItem(LOCALSTORAGE_TOKEN_KEY, res.token)
-        ),
+        tap((res: LoginResponse) => {
+          localStorage.setItem('auth_token', res.token);
+          this.apiService.getUserId().subscribe(); // call getUserId() function after storing token in local storage
+        }),
         tap(() =>
           this.snackbar.open('Login Successfull', 'Close', {
             panelClass: 'snackbar',

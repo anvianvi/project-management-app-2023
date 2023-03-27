@@ -1,0 +1,19 @@
+<div>
+  <div class="boards-list">
+    <button color="primary" class="create-board-button" (click)="createBoard()">
+      <mat-icon>add</mat-icon>
+      <span>Create new board</span>
+    </button>
+    <ul>
+      <li *ngFor="let board of boards">
+        <a routerLink="/boards/{{ board.id }}">
+          <h2>{{ board.title }}</h2>
+        </a>
+        <!-- <button mat-raised-button color="warn" (click)="openConfirmDialog(board)">
+          Delete
+        </button> -->
+      </li>
+    </ul>
+  </div>
+  <div clas="boards-content"></div>
+</div>
