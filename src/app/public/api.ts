@@ -25,14 +25,32 @@ export class ApiService {
       .pipe(
         tap((res: UserResponse) => {
           if (res) {
-            console.log('res');
-            console.log(res[0]._id);
-            localStorage.setItem('user_id', res[0]._id); // store the user ID in local storage
+            const login = localStorage.getItem('user_login');
+            //@ts-ignore
+            const currentUser = res.find((user) => user.login === login);
+            localStorage.setItem('user_id', currentUser._id);
           }
         })
       );
   }
 
+  getCurrentUser() {
+    return this.http
+      .get(`${backendDomain}users/${localStorage.getItem('user_id')}`, {
+        headers: this.getHeaders(),
+      })
+      .pipe(
+        //@ts-ignore
+        tap((res) => {
+          if (res) {
+            console.log('current user');
+            console.log(res);
+            console.log('res');
+            return res;
+          }
+        })
+      );
+  }
   getBoards() {
     return this.http
       .get(`${backendDomain}boardsSet/${localStorage.getItem('user_id')}`, {

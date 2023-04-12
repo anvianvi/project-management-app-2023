@@ -44,6 +44,7 @@ export class AuthService {
         }),
         tap((res: LoginResponse) => {
           localStorage.setItem('auth_token', res.token);
+          localStorage.setItem('user_login', loginRequest.login);
           this.apiService.getUserId().subscribe(); // call getUserId() function after storing token in local storage
         }),
         tap(() =>
