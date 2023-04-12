@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ApiService } from '../../public/api';
 import { MatDialog } from '@angular/material/dialog';
 import { CreateBoardDialogComponent } from '../components/create-board-dialog-component/create-board-dialog.component';
+import { ConfirmModalComponent } from '../components/confirm-modal-component/confirm-modal.component';
 
 @Component({
   selector: 'app-home',
@@ -14,13 +15,8 @@ export class HomeComponent implements OnInit {
   constructor(private apiService: ApiService, private dialog: MatDialog) {}
   ngOnInit(): void {
     this.refreshBoards();
-
-    // console.log(localStorage);
-    // this.apiService.getBoards().subscribe((data) => {
-    //   this.boards = data;
-    //   console.log(this.boards);
-    // });
   }
+
   refreshBoards(): void {
     this.apiService.getBoards().subscribe((data) => {
       this.boards = data;
@@ -40,16 +36,25 @@ export class HomeComponent implements OnInit {
       if (result) {
         this.apiService.createBoard(result).subscribe((board: any) => {
           console.log('Board created:', board);
-          this.refreshBoards(); // <-- Refresh the board list
+          this.refreshBoards();
         });
       }
     });
+  }
+  deleteBoard(boardId: string, boardTitle: string): void {
+    const dialogRef = this.dialog.open(ConfirmModalComponent, {
+      data: {
+        message: `Are you sure you want to delete the board "${boardTitle}"?`,
+      },
+    });
 
-    // deleteBoard(boardId: number): void {
-    //   console.log('Deleting board with id', boardId);
-    //   this.apiService.deleteBoard(boardId).subscribe(() => {
-    //     console.log('Board deleted');
-    //   });
-    // }
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.apiService.deleteBoard(boardId).subscribe(() => {
+          console.log('Board deleted');
+          this.refreshBoards();
+        });
+      }
+    });
   }
 }

@@ -10,8 +10,15 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { FormsModule } from '@angular/forms';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatInputModule } from '@angular/material/input';
+import { ConfirmModalComponent } from './components/confirm-modal-component/confirm-modal.component';
+
 @NgModule({
-  declarations: [DashboardComponent, HomeComponent, CreateBoardDialogComponent],
+  declarations: [
+    DashboardComponent,
+    HomeComponent,
+    CreateBoardDialogComponent,
+    ConfirmModalComponent,
+  ],
   imports: [
     CommonModule,
     // Import our Routes for this module
