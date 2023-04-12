@@ -11,6 +11,11 @@ import { FormsModule } from '@angular/forms';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatInputModule } from '@angular/material/input';
 import { ConfirmModalComponent } from './components/confirm-modal-component/confirm-modal.component';
+import { FlexLayoutModule } from '@angular/flex-layout';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatListModule } from '@angular/material/list';
+import { MyProfile } from './myprofile/myprofile.component';
 
 @NgModule({
   declarations: [
@@ -18,6 +23,7 @@ import { ConfirmModalComponent } from './components/confirm-modal-component/conf
     HomeComponent,
     CreateBoardDialogComponent,
     ConfirmModalComponent,
+    MyProfile,
   ],
   imports: [
     CommonModule,
@@ -30,6 +36,11 @@ import { ConfirmModalComponent } from './components/confirm-modal-component/conf
     FormsModule,
     MatDialogModule,
     MatInputModule,
+    FlexLayoutModule,
+    MatSnackBarModule,
+    MatListModule,
+    MatMenuModule,
+    FormsModule,
   ],
 })
 export class ProtectedModule {}

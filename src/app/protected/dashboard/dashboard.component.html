@@ -1,9 +1,9 @@
 <header class='header'>
   <a routerLink='' class='logo'></a>
   <nav>
-    <a routerLink="protected/home" routerLinkActive="active">Home</a>
-    <!-- <a routerLink="/main/child2" routerLinkActive="active">Child 2</a> -->
-    <button mat-raised-button (click)="logout()">Logout (remove token from localstorage)</button>
+    <a routerLink="/protected/home" routerLinkActive="active-nav-link">Home</a>
+    <a routerLink="/protected/profile" routerLinkActive="active-nav-link">Profile</a>
+    <a routerLink="/protected/home" (click)="logout()">Logout</a>
   </nav>
 </header>
 

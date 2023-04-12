@@ -2,8 +2,7 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './home/home.component';
-import { BoardContentComponent } from './board-content/board-content.component';
-import { SelectedTaskComponent } from './selected-task/selected-task.component';
+import { MyProfile } from './myprofile/myprofile.component';
 
 // Routes for child Module (protectedModule). Since protected module is lazy loaded in in the
 // app-routing.module the full path is `/protected/dashboard`
@@ -32,17 +31,21 @@ const routes: Routes = [
       {
         path: 'home',
         component: HomeComponent,
-        children: [
-          {
-            path: 'board/',
-            component: BoardContentComponent,
-            children: [
-              { path: 'overview', component: SelectedTaskComponent },
-              // { path: 'spec', component: ProductSpecComponent },
-              { path: '', redirectTo: 'overview', pathMatch: 'full' },
-            ],
-          },
-        ],
+        // children: [
+        //   {
+        //     path: 'board/',
+        //     component: BoardContentComponent,
+        //     children: [
+        //       { path: 'overview', component: SelectedTaskComponent },
+        //       // { path: 'spec', component: ProductSpecComponent },
+        //       { path: '', redirectTo: 'overview', pathMatch: 'full' },
+        //     ],
+        //   },
+        // ],
+      },
+      {
+        path: 'profile',
+        component: MyProfile,
       },
     ],
   },
