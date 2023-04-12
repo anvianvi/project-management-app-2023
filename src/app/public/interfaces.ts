@@ -21,3 +21,9 @@ export interface UserResponse {
   };
   length: number;
 }
+
+export interface User {
+  _id: string;
+  name: string;
+  login: string;
+}
