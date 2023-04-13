@@ -20,9 +20,7 @@ export class DashboardComponent {
 
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
-        console.log(result);
         localStorage.clear();
-        console.log(localStorage);
         this.router.navigate(['../../']);
       }
     });

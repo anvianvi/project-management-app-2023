@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiService } from '../../public/api';
 import { User } from 'src/app/public/interfaces';
+import { MatDialog } from '@angular/material/dialog';
+import { Router } from '@angular/router';
+import { ConfirmModalComponent } from '../components/confirm-modal-component/confirm-modal.component';
 
 @Component({
   selector: 'my-profile',
@@ -18,7 +21,11 @@ export class MyProfile implements OnInit {
   confirmPassword: string = '';
   changePasswordResult: string | undefined;
 
-  constructor(private apiService: ApiService) {}
+  constructor(
+    private apiService: ApiService,
+    private router: Router,
+    private dialog: MatDialog
+  ) {}
   ngOnInit(): void {
     this.refreshUserInfo();
   }
@@ -56,6 +63,21 @@ export class MyProfile implements OnInit {
   }
 
   onDeleteClick() {
-    console.log('del');
+    const dialogRef = this.dialog.open(ConfirmModalComponent, {
+      data: {
+        message: `Are you sure you want to delete curren account?`,
+      },
+    });
+    const userID = localStorage.getItem('user_id') || '';
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.apiService.deleteUser(userID).subscribe(() => {
+          console.log('User deleted');
+          localStorage.clear();
+          this.router.navigate(['../../']);
+          // this.deleteUser();
+        });
+      }
+    });
   }
 }

@@ -29,6 +29,7 @@ export class ApiService {
             //@ts-ignore
             const currentUser = res.find((user) => user.login === login);
             localStorage.setItem('user_id', currentUser._id);
+            localStorage.setItem('user_name', currentUser.name);
           }
         })
       );
@@ -51,18 +52,29 @@ export class ApiService {
         })
       );
   }
+
+  deleteUser(userId: string) {
+    return this.http
+      .delete(`${backendDomain}users/${userId}`, {
+        headers: this.getHeaders(),
+      })
+      .pipe(
+        tap((res: any) => {
+          if (res) {
+            return res;
+          }
+        })
+      );
+  }
+
   getBoards() {
     return this.http
       .get(`${backendDomain}boardsSet/${localStorage.getItem('user_id')}`, {
         headers: this.getHeaders(),
       })
       .pipe(
-        //@ts-ignore
-        tap((res) => {
+        tap((res: any) => {
           if (res) {
-            console.log('res');
-            console.log(res);
-            console.log('res');
             return res;
           }
         })
@@ -100,12 +112,8 @@ export class ApiService {
         headers: this.getHeaders(),
       })
       .pipe(
-        //@ts-ignore
-        tap((res) => {
+        tap((res: any) => {
           if (res) {
-            console.log('res');
-            console.log(res);
-            console.log('res');
             return res;
           }
         })
