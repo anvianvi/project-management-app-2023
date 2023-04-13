@@ -45,6 +45,7 @@ export class AuthService {
         tap((res: LoginResponse) => {
           localStorage.setItem('auth_token', res.token);
           localStorage.setItem('user_login', loginRequest.login);
+          localStorage.setItem('user_pass', loginRequest.password)
           this.apiService.getUserId().subscribe(); // call getUserId() function after storing token in local storage
         }),
         tap(() =>
@@ -98,9 +99,4 @@ export class AuthService {
         })
       );
   }
-
-  // getLoggedInUser() {
-  //   const decodedToken = this.jwtService.decodeToken();
-  //   return decodedToken.user;
-  // }
 }

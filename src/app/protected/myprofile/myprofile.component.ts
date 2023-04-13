@@ -43,21 +43,50 @@ export class MyProfile implements OnInit {
   }
 
   onSaveClick() {
-    // Here you would typically call a service to save the changes to the server
-    // For simplicity, we'll just log the changes to the console
-    console.log(
-      //@ts-ignore
-      `Saving changes: name=${this.user.name}, login=${this.user.login}`
-    );
+    const dialogRef = this.dialog.open(ConfirmModalComponent, {
+      data: {
+        message: `Save changes?`,
+      },
+    });
+    const userPassword = localStorage.getItem('user_pass') || '';
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.apiService
+          .updateUserData(this.user.name, this.user.login, userPassword)
+          .subscribe(() => {
+            console.log(
+              `Saving changes: name=${this.user.name}, login=${this.user.login}`
+            );
+            this.refreshUserInfo();
+          });
+      }
+    });
     this.isDisabled = true;
   }
 
   onChangePasswordClick() {
     if (this.newPassword === this.confirmPassword) {
-      console.log('New password: ', this.newPassword);
+      const dialogRef = this.dialog.open(ConfirmModalComponent, {
+        data: {
+          message: `Save new password?`,
+        },
+      });
+      dialogRef.afterClosed().subscribe((result) => {
+        if (result) {
+          this.apiService
+            .updateUserData(
+              this.user.name,
+              this.user.login,
+              this.confirmPassword
+            )
+            .subscribe(() => {
+              console.log(`pasword changed`);
+              this.refreshUserInfo();
+            });
+        }
+      });
       this.changePasswordResult = 'Password changed successfully';
     } else {
-      console.log('Passwords do not match');
       this.changePasswordResult = 'Passwords do not match';
     }
   }

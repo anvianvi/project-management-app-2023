@@ -53,6 +53,35 @@ export class ApiService {
       );
   }
 
+  updateUserData(
+    userName: string,
+    userLogin: string,
+    userPassword: string
+  ): Observable<any> {
+    const userId = localStorage.getItem('user_id');
+    const userData = {
+      name: userName,
+      login: userLogin,
+      password: userPassword,
+    };
+
+    return this.http
+      .put(`${backendDomain}users/${userId}`, userData, {
+        headers: this.getHeaders(),
+      })
+      .pipe(
+        tap((res) => {
+          if (res) {
+            console.log('User updated response:', res);
+          }
+        }),
+        catchError((err) => {
+          console.error('Error getting user ID:', err);
+          return throwError(err);
+        })
+      );
+  }
+
   deleteUser(userId: string) {
     return this.http
       .delete(`${backendDomain}users/${userId}`, {
