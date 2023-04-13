@@ -16,6 +16,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatListModule } from '@angular/material/list';
 import { MyProfile } from './myprofile/myprofile.component';
+import { DragDropModule } from '@angular/cdk/drag-drop';
 
 @NgModule({
   declarations: [
@@ -41,6 +42,7 @@ import { MyProfile } from './myprofile/myprofile.component';
     MatListModule,
     MatMenuModule,
     FormsModule,
+    DragDropModule,
   ],
 })
 export class ProtectedModule {}

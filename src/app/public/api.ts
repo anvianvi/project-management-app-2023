@@ -148,4 +148,47 @@ export class ApiService {
         })
       );
   }
+
+  getColoms(boardId: string) {
+    return this.http
+      .get(`${backendDomain}boards/${boardId}/columns`, {
+        headers: this.getHeaders(),
+      })
+      .pipe(
+        tap((res: any) => {
+          if (res) {
+            console.log(res);
+            return res;
+          }
+        })
+      );
+  }
+  createColumn(
+    colomnTitle: string,
+    boardId: string,
+    columnOrder: number
+  ): Observable<any> {
+    const columnData = {
+      title: colomnTitle,
+      order: columnOrder,
+    };
+    console.log('i resive and try to send to server this data' + columnData);
+    console.log(columnData);
+    console.log(boardId);
+    return this.http
+      .post(`${backendDomain}boards/${boardId}/columns`, columnData, {
+        headers: this.getHeaders(),
+      })
+      .pipe(
+        tap((res) => {
+          if (res) {
+            console.log('Board created:', res);
+          }
+        }),
+        catchError((err) => {
+          console.error('Error creating board:', err);
+          return throwError(err);
+        })
+      );
+  }
 }
