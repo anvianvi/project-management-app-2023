@@ -31,17 +31,6 @@ const routes: Routes = [
       {
         path: 'home',
         component: HomeComponent,
-        // children: [
-        //   {
-        //     path: 'board/',
-        //     component: BoardContentComponent,
-        //     children: [
-        //       { path: 'overview', component: SelectedTaskComponent },
-        //       // { path: 'spec', component: ProductSpecComponent },
-        //       { path: '', redirectTo: 'overview', pathMatch: 'full' },
-        //     ],
-        //   },
-        // ],
       },
       {
         path: 'profile',
