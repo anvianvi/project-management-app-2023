@@ -47,6 +47,7 @@ export class AuthService {
           localStorage.setItem('user_login', loginRequest.login);
           localStorage.setItem('user_pass', loginRequest.password)
           this.apiService.getUserId().subscribe(); // call getUserId() function after storing token in local storage
+          this.apiService.getBoards()
         }),
         tap(() =>
           this.snackbar.open('Login Successfull', 'Close', {
