@@ -24,13 +24,10 @@ export class HomeComponent implements OnInit {
   getBoards(): void {
     this.apiService.getBoards().subscribe((data) => {
       this.boards = data;
-      console.log('Boards:', this.boards);
     });
   }
 
   selectBoard(boardId: string) {
-    console.log('is im select any board?');
-    console.log(boardId);
     this.selectedBoardId = boardId;
     this.getBoardColumns(boardId);
   }
@@ -91,13 +88,45 @@ export class HomeComponent implements OnInit {
       });
   }
 
+  startEditingColumnTitle(column: any) {
+    column.isEditing = true;
+    column.newTitle = column.title;
+  }
+
+  cancelEditingColumnTitle(column: any) {
+    column.isEditing = false;
+  }
+
+  updateColumnTitle(column: any) {
+    const dialogRef = this.dialog.open(ConfirmModalComponent, {
+      data: {
+        message: `Save changes?`,
+      },
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.apiService
+          .updateColumnData(
+            this.selectedBoardId,
+            column._id,
+            column.newTitle,
+            column.order
+          )
+          .subscribe(() => {
+            this.getBoardColumns(this.selectedBoardId);
+          });
+      }
+    });
+    column.isEditing = false;
+  }
+
   deleteColumn(columnId: string, columnTitle: string): void {
     const dialogRef = this.dialog.open(ConfirmModalComponent, {
       data: {
         message: `Are you sure you want to delete the column "${columnTitle}"?`,
       },
     });
-    console.log(columnId, this.selectedBoardId);
 
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
@@ -112,13 +141,27 @@ export class HomeComponent implements OnInit {
   }
 
   //@ts-ignore
-  onColumbDrop(event: CdkDragDrop<Column[]>) {
+  onColumbDrop(event: CdkDragDrop<any>) {
+    const droppedColumnIndex = event.previousIndex;
+    const droppedColumn = this.columns[droppedColumnIndex];
+    console.log(this.columns);
+    console.log(event);
     console.log(this.columns);
     console.log(event.previousIndex);
     console.log(event.currentIndex);
-
+    console.log(droppedColumn);
     moveItemInArray(this.columns, event.previousIndex, event.currentIndex);
     // Update the order of the columns in the database
     // ...
+    // this.apiService
+    //       .updateColumnData(
+    //         this.selectedBoardId,
+    //         column._id,
+    //         column.title,
+    //         column.order
+    //       )
+    //       .subscribe(() => {
+    //         this.getBoardColumns(this.selectedBoardId);
+    //       });
   }
 }

@@ -192,6 +192,38 @@ export class ApiService {
       );
   }
 
+  updateColumnData(
+    boardId: string,
+    columnId: string,
+    colomnTitle: string,
+    columnOrder: number
+  ): Observable<any> {
+    const columnData = {
+      title: colomnTitle,
+      order: columnOrder,
+    };
+
+    return this.http
+      .put(
+        `${backendDomain}boards/${boardId}/columns/${columnId}`,
+        columnData,
+        {
+          headers: this.getHeaders(),
+        }
+      )
+      .pipe(
+        tap((res) => {
+          if (res) {
+            console.log('Column updated response:', res);
+          }
+        }),
+        catchError((err) => {
+          console.error('Column update error:', err);
+          return throwError(err);
+        })
+      );
+  }
+
   deleteColumn(boardId: string, columnId: string) {
     return this.http
       .delete(`${backendDomain}boards/${boardId}/columns/${columnId}`, {
