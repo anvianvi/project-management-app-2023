@@ -1,0 +1,31 @@
+import { Component } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { tap } from 'rxjs/operators';
+import { Router } from '@angular/router';
+import { AuthService } from '../../services/auth-service/auth.service';
+
+@Component({
+  selector: 'app-login',
+  templateUrl: './login.component.html',
+  styleUrls: ['./../home/home.component.sass', './login.component.sass'],
+})
+export class LoginComponent {
+  loginForm: FormGroup = new FormGroup({
+    login: new FormControl(null, [Validators.required]),
+    password: new FormControl(null, [Validators.required]),
+  });
+
+  constructor(private authService: AuthService, private router: Router) {}
+
+  login() {
+    if (!this.loginForm.valid) {
+      return;
+    }
+    this.authService
+      .login(this.loginForm.value)
+      .pipe(
+        tap(() => this.router.navigate(['../../protected']))
+      )
+      .subscribe();
+  }
+}

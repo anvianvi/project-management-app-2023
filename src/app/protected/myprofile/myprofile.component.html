@@ -1,0 +1,37 @@
+<div class="user-profile-container">
+  <div class="user-profile-details">
+    <div class="user-profile-row">
+      <label class="user-profile-label" for="name">Name:</label>
+      <input class="user-profile-input" type="text" id="name" [disabled]="isDisabled" [(ngModel)]="user.name">
+    </div>
+    <div class="user-profile-row">
+      <label class="user-profile-label" for="login">Login:</label>
+      <input class="user-profile-input" type="text" id="login" [disabled]="isDisabled" [(ngModel)]="user.login">
+    </div>
+    <div class="user-profile-row">
+      <button class="user-profile-button edit-button" (click)="onEditClick()" [disabled]="!isDisabled">Edit</button>
+      <button class="user-profile-button save-button" (click)="onSaveClick()"
+        [disabled]="isDisabled || (!user.name || !user.login)">Save</button>
+    </div>
+  </div>
+
+  <div class="password-details">
+    <div class="password-details-row">
+      <label class="password-details-label" for="new-password">New Password:</label>
+      <input class="password-details-input" type="password" id="new-password" [(ngModel)]="newPassword">
+    </div>
+    <div class="password-details-row">
+      <label class="password-details-label" for="confirm-password">Confirm Password:</label>
+      <input class="password-details-input" type="password" id="confirm-password" [(ngModel)]="confirmPassword">
+    </div>
+    <div class="password-details-row">
+      <button class="password-details-button change-password-button" (click)="onChangePasswordClick()">Change
+        Password</button>
+    </div>
+    <div class="password-details-row">
+      <p class="password-details-text" *ngIf="changePasswordResult">{{ changePasswordResult }}</p>
+    </div>
+  </div>
+
+  <button class="delete-user-button" (click)="onDeleteClick()">Delete User</button>
+</div>

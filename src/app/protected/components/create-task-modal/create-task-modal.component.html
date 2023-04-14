@@ -1,0 +1,15 @@
+<mat-dialog-content>
+  <h2 mat-dialog-title>Create a new task</h2>
+  <form>
+    <mat-form-field>
+      <input matInput placeholder="Task name" name="title" [(ngModel)]="title" required>
+    </mat-form-field>
+    <mat-form-field>
+      <textarea matInput placeholder="Task description" name="description" [(ngModel)]="description"></textarea>
+    </mat-form-field>
+  </form>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-button (click)="onCancel()">Cancel</button>
+  <button mat-button color="primary" (click)="onCreateTask()">Save</button>
+</mat-dialog-actions>

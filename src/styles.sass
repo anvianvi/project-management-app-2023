@@ -1,0 +1,27 @@
+@import './app/_variables'
+@import "~@angular/material/prebuilt-themes/indigo-pink.css"
+@import "~@angular/material/prebuilt-themes/deeppurple-amber.css"
+
+@font-face
+  font-family: 'Roboto'
+  src: url('https://fonts.googleapis.com/css2?family=Roboto&display=swap')
+
+*
+  margin: 0
+  padding: 0
+  box-sizing: border-box
+  background: $bg-color
+  color: $text-color
+  font-family: Roboto, "Helvetica Neue", sans-serif
+
+html, body
+  height: 100%
+
+a
+  all: initial
+  cursor: pointer
+  font-family: Roboto, "Helvetica Neue", sans-serif
+
+.snackbar
+  .mat-mdc-snack-bar-label
+    color: $text-color !important

@@ -1,0 +1,58 @@
+<div class="boards-nav">
+  <button color="primary" class="create-board-button" (click)="createBoard()">
+    Create new board
+  </button>
+  <div class="boards-list">
+    <div *ngFor="let board of boards" class="board-element" [class.active]="board._id === selectedBoardId"
+      (click)="selectBoard(board._id)">
+      <span>{{ board.title }}</span>
+      <button class="deleteButtonCircle" (click)="deleteBoard(board._id, board.title )"></button>
+    </div>
+  </div>
+</div>
+
+<div class="boards-content">
+  <ng-container *ngIf="selectedBoardId">
+    <div class="create-column">
+      <input type="text" [(ngModel)]="newColumnTitle" placeholder="Enter column title">
+      <button (click)="createColumn()" class="create-board-button">Create column</button>
+    </div>
+
+    <div class="column-list" cdkDropList (cdkDropListDropped)="onColumbDrop($event)">
+      <div *ngFor="let column of columns; let i = index" class="column-element" cdkDrag [id]="column._id">
+        <div class="column-title">
+          <div *ngIf="!column.isEditing" class="column-title-content">
+            <span (click)="startEditingColumnTitle(column)">{{ column.title }}</span>
+            <div class="button-group">
+              <button class="editButtonCircle" (click)="startEditingColumnTitle(column)"></button>
+              <button class="deleteButtonCircle" (click)="deleteColumn(column._id, column.title)"></button>
+            </div>
+          </div>
+          <div *ngIf="column.isEditing" class="column-title-content">
+            <input type="text" [(ngModel)]="column.newTitle" class="editInput" />
+            <div class="button-group">
+              <button class="deleteButtonCircle" (click)="cancelEditingColumnTitle(column)"></button>
+              <button class="saveButton" (click)="updateColumnTitle(column)"></button>
+            </div>
+          </div>
+        </div>
+
+        <button class="createTaskButton" (click)="createTask(column)">Create new task</button>
+
+        <div class="column-content" cdkDropList (cdkDropListDropped)="onTaskDrop($event, column)">
+          <div *ngFor="let task of column.tasks; let j = index" class="task-element" cdkDrag [id]="task._id">
+            <div class="task-title">{{ task.title }}</div>
+            <div class="button-group">
+              <button class="editButtonCircle" (click)="editTask(task,column)"></button>
+              <button class="deleteButtonCircle" (click)="deleteTask(task, column)"></button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+  <ng-container *ngIf="!selectedBoardId">
+    <p>Please select a board</p>
+  </ng-container>
+
+</div>

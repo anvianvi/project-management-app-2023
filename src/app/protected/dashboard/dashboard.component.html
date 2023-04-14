@@ -1,0 +1,17 @@
+<header class='header'>
+  <a routerLink='' class='logo'></a>
+  <nav>
+    <a routerLink="/protected/home" routerLinkActive="active-nav-link">Home</a>
+    <a routerLink="/protected/profile" routerLinkActive="active-nav-link">Profile</a>
+    <a routerLink="/protected/home" (click)="logout()">Logout</a>
+  </nav>
+</header>
+
+<main class="main">
+  <router-outlet></router-outlet>
+</main>
+
+<footer class='footer'>
+  <div>Created by <a href='https://github.com/anvianvi' target='_blank'>Pavel Viarbitsi</a> in March 2023 for <a
+      href='https://rs.school/angular/' target='_blank'>The Rolling Scopes</a></div>
+</footer>
