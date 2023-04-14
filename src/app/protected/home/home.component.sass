@@ -63,7 +63,13 @@
 
 .column-content
   flex: 1
-  padding: 0.5rem
+  padding: 1rem 5px
+  display: flex
+  flex-direction: column
+  gap: 5px
+  min-height: 500px
+  max-height: 75vh
+  overflow-y: auto
 
 .create-column
   display: flex
@@ -133,3 +139,24 @@
   display: flex
   gap: 10px
   background: #e0e0e0
+
+.task-element
+  display: flex
+  justify-content: space-between
+  align-items: center
+  padding: 5px
+  border: 1px solid lightgray
+  border-radius: 5px
+  div
+    background: #f9f9f9
+
+.createTaskButton
+  background: #2979ff
+  color: #fff
+  border-radius: 4px
+  margin: 15px 0
+  padding: 10px 0
+  display: flex
+  align-items: center
+  justify-content: center
+  cursor: pointer

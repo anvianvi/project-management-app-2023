@@ -36,13 +36,14 @@
             </div>
           </div>
         </div>
-        <div class="column-content">
-          <button class="createTaskButton" (click)="createTask(column)">Create new task</button>
 
+        <button class="createTaskButton" (click)="createTask(column)">Create new task</button>
+
+        <div class="column-content">
           <div *ngFor="let task of column.tasks" class="task-element">
             <div class="task-title">{{ task.title }}</div>
             <div class="button-group">
-              <!-- <button class="editButtonCircle" (click)="startEditingTaskTitle(task)"></button> -->
+              <button class="editButtonCircle" (click)="editTask(task,column)"></button>
               <button class="deleteButtonCircle" (click)="deleteTask(task, column)"></button>
             </div>
           </div>

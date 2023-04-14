@@ -258,15 +258,30 @@ export class ApiService {
           headers: this.getHeaders(),
         }
       )
-      .pipe(
-        tap((res) => {
-          if (res) {
-          }
-        }),
-        catchError((err) => {
-          return throwError(err);
-        })
-      );
+  }
+
+  updateTask(
+    boardId: string,
+    columnId: string,
+    taskTitle: string,
+    taskDescription: string
+  ): Observable<any> {
+    const userId = localStorage.getItem('user_id');
+    const taskData = {
+      title: taskTitle,
+      order: 0,
+      description: taskDescription,
+      userId: userId,
+      users: [userId],
+    };
+    return this.http
+      .put(
+        `${backendDomain}boards/${boardId}/columns/${columnId}/tasks`,
+        taskData,
+        {
+          headers: this.getHeaders(),
+        }
+      )
   }
 
   deleteTask(boardId: string, columnId: string, taskId: string) {

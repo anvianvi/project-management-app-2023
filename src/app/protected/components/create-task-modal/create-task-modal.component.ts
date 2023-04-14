@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-import { MatDialogRef } from '@angular/material/dialog';
+import { Component, Inject, OnInit } from '@angular/core';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { ITask } from 'src/app/public/interfaces';
 
 @Component({
   selector: 'app-create-task-modal',
@@ -9,10 +10,15 @@ import { MatDialogRef } from '@angular/material/dialog';
 export class CreateTaskModalComponent implements OnInit {
   title: string = '';
   description: string = '';
+  constructor(
+    private dialogRef: MatDialogRef<CreateTaskModalComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: { title: string; task?: ITask }
+  ) {}
 
-  constructor(private dialogRef: MatDialogRef<CreateTaskModalComponent>) {}
-
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.title = this.data.task?.title || '';
+    this.description = this.data.task?.description || '';
+  }
 
   onCancel(): void {
     this.dialogRef.close();

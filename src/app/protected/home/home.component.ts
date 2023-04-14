@@ -189,7 +189,11 @@ export class HomeComponent implements OnInit {
   }
 
   createTask(column: IColumn): void {
-    const dialogRef = this.dialog.open(CreateTaskModalComponent, {});
+    const dialogRef = this.dialog.open(CreateTaskModalComponent, {
+      data: {
+        title: 'Create a new task',
+      },
+    });
 
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
@@ -206,19 +210,30 @@ export class HomeComponent implements OnInit {
       }
     });
   }
-  // createTask(column: any) {
-  //   console.log('123');
-  //   console.log(column);
 
-  //   const taskTitle = 'New Task';
-  //   const taskDescription = 'taskDescription';
+  editTask(task: ITask, column: IColumn) {
+    const dialogRef = this.dialog.open(CreateTaskModalComponent, {
+      data: {
+        task,
+        heading: 'Edit Task',
+      },
+    });
 
-  //   this.apiService
-  //     .createTask(this.selectedBoardId, column._id, taskTitle, taskDescription)
-  //     .subscribe((task: any) => {
-  //       column.tasks.push(task);
-  //     });
-  // }
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.apiService
+          .updateTask(
+            this.selectedBoardId,
+            column._id,
+            result.title,
+            result.description
+          )
+          .subscribe(() => {
+            this.getColumnsTasks(column);
+          });
+      }
+    });
+  }
 
   deleteTask(task: ITask, column: IColumn) {
     const dialogRef = this.dialog.open(ConfirmModalComponent, {
