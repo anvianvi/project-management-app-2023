@@ -41,12 +41,8 @@ export class ApiService {
         headers: this.getHeaders(),
       })
       .pipe(
-        //@ts-ignore
-        tap((res) => {
+        tap((res: any) => {
           if (res) {
-            console.log('current user');
-            console.log(res);
-            console.log('res');
             return res;
           }
         })
@@ -72,11 +68,9 @@ export class ApiService {
       .pipe(
         tap((res) => {
           if (res) {
-            console.log('User updated response:', res);
           }
         }),
         catchError((err) => {
-          console.error('Error getting user ID:', err);
           return throwError(err);
         })
       );
@@ -119,17 +113,14 @@ export class ApiService {
       users: [user_id],
     };
 
-    console.log('Sending request to create board:', boardData);
     return this.http
       .post(`${backendDomain}boards`, boardData, { headers: this.getHeaders() })
       .pipe(
         tap((res) => {
           if (res) {
-            console.log('Server response:', res);
           }
         }),
         catchError((err) => {
-          console.error('Error getting user ID:', err);
           return throwError(err);
         })
       );
@@ -157,7 +148,6 @@ export class ApiService {
       .pipe(
         tap((res: any) => {
           if (res) {
-            console.log(res);
             return res;
           }
         })
@@ -172,9 +162,6 @@ export class ApiService {
       title: colomnTitle,
       order: columnOrder,
     };
-    console.log('i resive and try to send to server this data' + columnData);
-    console.log(columnData);
-    console.log(boardId);
     return this.http
       .post(`${backendDomain}boards/${boardId}/columns`, columnData, {
         headers: this.getHeaders(),
@@ -182,11 +169,9 @@ export class ApiService {
       .pipe(
         tap((res) => {
           if (res) {
-            console.log('Board created:', res);
           }
         }),
         catchError((err) => {
-          console.error('Error creating board:', err);
           return throwError(err);
         })
       );
@@ -214,11 +199,9 @@ export class ApiService {
       .pipe(
         tap((res) => {
           if (res) {
-            console.log('Column updated response:', res);
           }
         }),
         catchError((err) => {
-          console.error('Column update error:', err);
           return throwError(err);
         })
       );
@@ -232,8 +215,6 @@ export class ApiService {
       .pipe(
         tap((res: any) => {
           if (res) {
-            console.log('board delited');
-            console.log(res);
             return res;
           }
         })
@@ -249,7 +230,6 @@ export class ApiService {
       .pipe(
         tap((res: any) => {
           if (res) {
-            console.log(res);
             return res;
           }
         })
@@ -270,8 +250,6 @@ export class ApiService {
       userId: userId,
       users: [userId],
     };
-    console.log(taskData)
-    console.log(`boards/${boardId}/columns/${columnId}/tasks`)
     return this.http
       .post(
         `${backendDomain}boards/${boardId}/columns/${columnId}/tasks`,
@@ -283,18 +261,15 @@ export class ApiService {
       .pipe(
         tap((res) => {
           if (res) {
-            console.log('task created:', res);
           }
         }),
         catchError((err) => {
-          console.error('Error creating task:', err);
           return throwError(err);
         })
       );
   }
 
   deleteTask(boardId: string, columnId: string, taskId: string) {
-    console.log(boardId, columnId, taskId);
     return this.http
       .delete(
         `${backendDomain}boards/${boardId}/columns/${columnId}/tasks/${taskId}  `,
@@ -305,8 +280,6 @@ export class ApiService {
       .pipe(
         tap((res: any) => {
           if (res) {
-            console.log('board delited');
-            console.log(res);
             return res;
           }
         })
