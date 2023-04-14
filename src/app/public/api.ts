@@ -270,9 +270,8 @@ export class ApiService {
       userId: userId,
       users: [userId],
     };
-    console.log('i resive and try to send to server this data' + taskData);
-    console.log(taskData);
-    console.log(boardId);
+    console.log(taskData)
+    console.log(`boards/${boardId}/columns/${columnId}/tasks`)
     return this.http
       .post(
         `${backendDomain}boards/${boardId}/columns/${columnId}/tasks`,

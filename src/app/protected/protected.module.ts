@@ -17,6 +17,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatListModule } from '@angular/material/list';
 import { MyProfile } from './myprofile/myprofile.component';
 import { DragDropModule } from '@angular/cdk/drag-drop';
+import { CreateTaskModalComponent } from './components/create-task-modal/create-task-modal.component';
 
 @NgModule({
   declarations: [
@@ -25,6 +26,7 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
     CreateBoardDialogComponent,
     ConfirmModalComponent,
     MyProfile,
+    CreateTaskModalComponent,
   ],
   imports: [
     CommonModule,

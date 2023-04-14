@@ -9,6 +9,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 import { JwtModule } from '@auth0/angular-jwt';
 import { MatIconModule } from '@angular/material/icon';
+import { CreateTaskModalComponent } from './protected/components/create-task-modal/create-task-modal.component';
 
 export const backendDomain = `https://final-task-backend-production-25f3.up.railway.app/`;
 

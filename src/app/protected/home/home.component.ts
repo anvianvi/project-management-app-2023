@@ -5,6 +5,7 @@ import { CreateBoardDialogComponent } from '../components/create-board-dialog-co
 import { ConfirmModalComponent } from '../components/confirm-modal-component/confirm-modal.component';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { IColumn, ITask } from 'src/app/public/interfaces';
+import { CreateTaskModalComponent } from '../components/create-task-modal/create-task-modal.component';
 
 @Component({
   selector: 'app-home',
@@ -27,15 +28,12 @@ export class HomeComponent implements OnInit {
   ngOnInit(): void {
     this.getBoards();
     this.apiService.getBoards();
-    console.log(this.boards);
-    console.log('loaded');
     this.cdRef.detectChanges();
   }
 
   getBoards(): void {
     this.apiService.getBoards().subscribe((data) => {
       this.boards = data;
-      console.log('loaded in get berds');
     });
   }
 
@@ -47,16 +45,13 @@ export class HomeComponent implements OnInit {
 
   createBoard(): void {
     const dialogRef = this.dialog.open(CreateBoardDialogComponent, {
-      width: '300px',
+      width: '400px',
       data: { title: '' },
     });
 
     dialogRef.afterClosed().subscribe((result) => {
-      console.log('The dialog was closed');
-      console.log('Result:', result.title);
       if (result) {
-        this.apiService.createBoard(result).subscribe((board: any) => {
-          console.log('Board created:', board);
+        this.apiService.createBoard(result).subscribe(() => {
           this.getBoards();
         });
       }
@@ -155,7 +150,6 @@ export class HomeComponent implements OnInit {
         this.apiService
           .deleteColumn(this.selectedBoardId, columnId)
           .subscribe(() => {
-            console.log('column deleted');
             this.columns.splice(indexToDelete, 1);
             this.columns.forEach((col, index) => {
               col.order = index + 1;
@@ -190,24 +184,41 @@ export class HomeComponent implements OnInit {
       .getTasks(this.selectedBoardId, column._id)
       .subscribe((tasks) => {
         column.tasks = tasks;
-        console.log('fetched tasks', this.tasks);
         // this.columns = this.columns.sort((a, b) => a.order - b.order);
       });
   }
 
-  createTask(column: any) {
-    console.log('123');
-    console.log(column);
+  createTask(column: IColumn): void {
+    const dialogRef = this.dialog.open(CreateTaskModalComponent, {});
 
-    const taskTitle = 'New Task';
-    const taskDescription = 'taskDescription';
-
-    this.apiService
-      .createTask(this.selectedBoardId, column._id, taskTitle, taskDescription)
-      .subscribe((task: any) => {
-        column.tasks.push(task);
-      });
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.apiService
+          .createTask(
+            this.selectedBoardId,
+            column._id,
+            result.title,
+            result.description
+          )
+          .subscribe(() => {
+            this.getColumnsTasks(column);
+          });
+      }
+    });
   }
+  // createTask(column: any) {
+  //   console.log('123');
+  //   console.log(column);
+
+  //   const taskTitle = 'New Task';
+  //   const taskDescription = 'taskDescription';
+
+  //   this.apiService
+  //     .createTask(this.selectedBoardId, column._id, taskTitle, taskDescription)
+  //     .subscribe((task: any) => {
+  //       column.tasks.push(task);
+  //     });
+  // }
 
   deleteTask(task: ITask, column: IColumn) {
     const dialogRef = this.dialog.open(ConfirmModalComponent, {
