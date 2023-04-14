@@ -15,16 +15,18 @@
 
 <div class="boards-content">
   <ng-container *ngIf="selectedBoardId">
-    <div class="column-list"  cdkDropList (cdkDropListDropped)="onColumbDrop($event)">
+    <div class="create-column">
+      <input type="text" [(ngModel)]="newColumnTitle" placeholder="Enter column title">
+      <button (click)="createColumn()" class="create-board-button">Create column</button>
+    </div>
+
+    <div class="column-list" cdkDropList (cdkDropListDropped)="onColumbDrop($event)">
       <div *ngFor="let column of columns" class="column-element" cdkDrag>
         <div class="column-title">{{ column.title }}</div>
         <div class="column-content">{{column._id}}</div>
       </div>
     </div>
-    <div class="create-column">
-      <input type="text" [(ngModel)]="newColumnTitle" placeholder="Enter column title">
-      <button (click)="createColumn()">Create column</button>
-    </div>
+
   </ng-container>
   <ng-container *ngIf="!selectedBoardId">
     <p>Please select a board</p>

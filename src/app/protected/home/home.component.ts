@@ -97,6 +97,9 @@ export class HomeComponent implements OnInit {
   //@ts-ignore
   onColumbDrop(event: CdkDragDrop<Column[]>) {
     console.log(this.columns);
+    console.log(event.previousIndex);
+    console.log(event.currentIndex);
+
     moveItemInArray(this.columns, event.previousIndex, event.currentIndex);
     // Update the order of the columns in the database
     // ...
