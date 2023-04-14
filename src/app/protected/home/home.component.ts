@@ -4,6 +4,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { CreateBoardDialogComponent } from '../components/create-board-dialog-component/create-board-dialog.component';
 import { ConfirmModalComponent } from '../components/confirm-modal-component/confirm-modal.component';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
+import { IColumn, ITask } from 'src/app/public/interfaces';
 
 @Component({
   selector: 'app-home',
@@ -13,6 +14,7 @@ import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 export class HomeComponent implements OnInit {
   boards: any[] = [];
   columns: any[] = [];
+  tasks: any[] = [];
   selectedBoardId: string = '';
   newColumnTitle: string = '';
 
@@ -40,6 +42,7 @@ export class HomeComponent implements OnInit {
   selectBoard(boardId: string) {
     this.selectedBoardId = boardId;
     this.getBoardColumns(boardId);
+    // this.getColumnsTasks()
   }
 
   createBoard(): void {
@@ -70,7 +73,6 @@ export class HomeComponent implements OnInit {
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
         this.apiService.deleteBoard(boardId).subscribe(() => {
-          console.log('Board deleted');
           this.getBoards();
         });
       }
@@ -80,10 +82,13 @@ export class HomeComponent implements OnInit {
   getBoardColumns(boardId: string) {
     this.apiService.getColoms(boardId).subscribe((data) => {
       this.columns = data;
-      console.log('coloms from server:', this.columns);
-      console.log(this.columns.length);
       this.columns = this.columns.sort((a, b) => a.order - b.order);
-      console.log('sorted columns', this.columns);
+
+      this.columns = this.columns.map((column) => {
+        column.tasks = [];
+        this.getColumnsTasks(column);
+        return column;
+      });
     });
   }
 
@@ -177,6 +182,48 @@ export class HomeComponent implements OnInit {
         column.title,
         column.order
       );
+    });
+  }
+
+  getColumnsTasks(column: any) {
+    this.apiService
+      .getTasks(this.selectedBoardId, column._id)
+      .subscribe((tasks) => {
+        column.tasks = tasks;
+        console.log('fetched tasks', this.tasks);
+        // this.columns = this.columns.sort((a, b) => a.order - b.order);
+      });
+  }
+
+  createTask(column: any) {
+    console.log('123');
+    console.log(column);
+
+    const taskTitle = 'New Task';
+    const taskDescription = 'taskDescription';
+
+    this.apiService
+      .createTask(this.selectedBoardId, column._id, taskTitle, taskDescription)
+      .subscribe((task: any) => {
+        column.tasks.push(task);
+      });
+  }
+
+  deleteTask(task: ITask, column: IColumn) {
+    const dialogRef = this.dialog.open(ConfirmModalComponent, {
+      data: {
+        message: `Are you sure you want to delete the task "${task.title}"?`,
+      },
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.apiService
+          .deleteTask(this.selectedBoardId, column._id, task._id)
+          .subscribe(() => {
+            this.getColumnsTasks(column);
+          });
+      }
     });
   }
 }

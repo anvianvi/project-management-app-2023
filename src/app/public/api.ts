@@ -239,4 +239,78 @@ export class ApiService {
         })
       );
   }
+
+  // https://final-task-backend-production-25f3.up.railway.app/boards/1/columns/1/tasks
+  getTasks(boardId: string, columnId: string) {
+    return this.http
+      .get(`${backendDomain}boards/${boardId}/columns/${columnId}/tasks`, {
+        headers: this.getHeaders(),
+      })
+      .pipe(
+        tap((res: any) => {
+          if (res) {
+            console.log(res);
+            return res;
+          }
+        })
+      );
+  }
+
+  createTask(
+    boardId: string,
+    columnId: string,
+    taskTitle: string,
+    taskDescription: string
+  ): Observable<any> {
+    const userId = localStorage.getItem('user_id');
+    const taskData = {
+      title: taskTitle,
+      order: 0,
+      description: taskDescription,
+      userId: userId,
+      users: [userId],
+    };
+    console.log('i resive and try to send to server this data' + taskData);
+    console.log(taskData);
+    console.log(boardId);
+    return this.http
+      .post(
+        `${backendDomain}boards/${boardId}/columns/${columnId}/tasks`,
+        taskData,
+        {
+          headers: this.getHeaders(),
+        }
+      )
+      .pipe(
+        tap((res) => {
+          if (res) {
+            console.log('task created:', res);
+          }
+        }),
+        catchError((err) => {
+          console.error('Error creating task:', err);
+          return throwError(err);
+        })
+      );
+  }
+
+  deleteTask(boardId: string, columnId: string, taskId: string) {
+    console.log(boardId, columnId, taskId);
+    return this.http
+      .delete(
+        `${backendDomain}boards/${boardId}/columns/${columnId}/tasks/${taskId}  `,
+        {
+          headers: this.getHeaders(),
+        }
+      )
+      .pipe(
+        tap((res: any) => {
+          if (res) {
+            console.log('board delited');
+            console.log(res);
+            return res;
+          }
+        })
+      );
+  }
 }

@@ -20,7 +20,6 @@
 
     <div class="column-list" cdkDropList (cdkDropListDropped)="onColumbDrop($event)">
       <div *ngFor="let column of columns; let i = index" class="column-element" cdkDrag>
-
         <div class="column-title">
           <div *ngIf="!column.isEditing" class="column-title-content">
             <span (click)="startEditingColumnTitle(column)">{{ column.title }}</span>
@@ -37,13 +36,23 @@
             </div>
           </div>
         </div>
+        <div class="column-content">
+          <button class="createTaskButton" (click)="createTask(column)">Create new task</button>
 
-        <div class="column-content">{{column._id}}</div>
+          <div *ngFor="let task of column.tasks" class="task-element">
+            <div class="task-title">{{ task.title }}</div>
+            <div class="button-group">
+              <!-- <button class="editButtonCircle" (click)="startEditingTaskTitle(task)"></button> -->
+              <button class="deleteButtonCircle" (click)="deleteTask(task, column)"></button>
+            </div>
+          </div>
+
+        </div>
       </div>
     </div>
-
   </ng-container>
   <ng-container *ngIf="!selectedBoardId">
     <p>Please select a board</p>
   </ng-container>
+
 </div>
