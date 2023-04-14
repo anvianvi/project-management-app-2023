@@ -191,4 +191,20 @@ export class ApiService {
         })
       );
   }
+
+  deleteColumn(boardId: string, columnId: string) {
+    return this.http
+      .delete(`${backendDomain}boards/${boardId}/columns/${columnId}`, {
+        headers: this.getHeaders(),
+      })
+      .pipe(
+        tap((res: any) => {
+          if (res) {
+            console.log('board delited');
+            console.log(res);
+            return res;
+          }
+        })
+      );
+  }
 }

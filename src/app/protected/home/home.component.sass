@@ -40,20 +40,21 @@
     font-weight: bold
   & span
     padding: 0.5rem
-  & button
-    display: flex
-    justify-content: center
-    align-items: center
-    margin-left: 0.5rem
-    width: 30px
-    height: 30px
-    background-color: #f44336
-    color: #fff
-    border-radius: 50%
-    cursor: pointer
-    font-size: 1.2rem
 
-.board-element button::after
+.deleteButtonCircle
+  display: flex
+  justify-content: center
+  align-items: center
+  margin-left: 0.5rem
+  width: 30px
+  height: 30px
+  background-color: #f44336
+  color: #fff
+  border-radius: 50%
+  cursor: pointer
+  font-size: 1.2rem
+
+.deleteButtonCircle::after
   content: "\00D7"
 
 .boards-content

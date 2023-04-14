@@ -86,14 +86,31 @@ export class HomeComponent implements OnInit {
         this.columns.length
       )
       .subscribe((data: any) => {
-        console.log('i send this data');
-        console.log(this.newColumnTitle);
-        console.log(this.selectedBoardId);
-
         this.columns.push(data);
         this.newColumnTitle = '';
       });
   }
+
+  deleteColumn(columnId: string, columnTitle: string): void {
+    const dialogRef = this.dialog.open(ConfirmModalComponent, {
+      data: {
+        message: `Are you sure you want to delete the column "${columnTitle}"?`,
+      },
+    });
+    console.log(columnId, this.selectedBoardId);
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.apiService
+          .deleteColumn(this.selectedBoardId, columnId)
+          .subscribe(() => {
+            console.log('column deleted');
+            this.getBoardColumns(this.selectedBoardId);
+          });
+      }
+    });
+  }
+
   //@ts-ignore
   onColumbDrop(event: CdkDragDrop<Column[]>) {
     console.log(this.columns);
