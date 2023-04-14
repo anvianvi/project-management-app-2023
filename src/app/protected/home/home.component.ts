@@ -3,7 +3,11 @@ import { ApiService } from '../../public/api';
 import { MatDialog } from '@angular/material/dialog';
 import { CreateBoardDialogComponent } from '../components/create-board-dialog-component/create-board-dialog.component';
 import { ConfirmModalComponent } from '../components/confirm-modal-component/confirm-modal.component';
-import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
+import {
+  CdkDragDrop,
+  moveItemInArray,
+  transferArrayItem,
+} from '@angular/cdk/drag-drop';
 import { IColumn, ITask } from 'src/app/public/interfaces';
 import { CreateTaskModalComponent } from '../components/create-task-modal/create-task-modal.component';
 
@@ -225,8 +229,10 @@ export class HomeComponent implements OnInit {
           .updateTask(
             this.selectedBoardId,
             column._id,
+            task._id,
             result.title,
-            result.description
+            result.description,
+            task.order
           )
           .subscribe(() => {
             this.getColumnsTasks(column);
@@ -251,5 +257,59 @@ export class HomeComponent implements OnInit {
           });
       }
     });
+  }
+
+  onTaskDrop(event: CdkDragDrop<any>, column: any) {
+    if (event.previousContainer === event.container) {
+      // The task was dropped within the same column. Update the order.
+      moveItemInArray(column.tasks, event.previousIndex, event.currentIndex);
+      column.tasks.forEach((task: ITask, index: number) => {
+        task.order = index + 1;
+        this.apiService
+          .updateTask(
+            this.selectedBoardId,
+            column._id,
+            task._id,
+            task.title,
+            task.description,
+            task.order
+          )
+          .subscribe();
+      });
+    } else {
+      // The task was dropped into a different column. Remove it from the previous column's tasks list and add it to the new column's tasks list.
+      transferArrayItem(
+        event.previousContainer.data,
+        event.container.data,
+        event.previousIndex,
+        event.currentIndex
+      );
+      event.container.data.forEach((task: ITask, index: number) => {
+        task.order = index + 1;
+        this.apiService
+          .updateTask(
+            this.selectedBoardId,
+            event.container.id,
+            task._id,
+            task.title,
+            task.description,
+            task.order
+          )
+          .subscribe();
+      });
+      event.previousContainer.data.forEach((task: ITask, index: number) => {
+        task.order = index + 1;
+        this.apiService
+          .updateTask(
+            this.selectedBoardId,
+            event.previousContainer.id,
+            task._id,
+            task.title,
+            task.description,
+            task.order
+          )
+          .subscribe();
+      });
+    }
   }
 }

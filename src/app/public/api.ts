@@ -221,7 +221,6 @@ export class ApiService {
       );
   }
 
-  // https://final-task-backend-production-25f3.up.railway.app/boards/1/columns/1/tasks
   getTasks(boardId: string, columnId: string) {
     return this.http
       .get(`${backendDomain}boards/${boardId}/columns/${columnId}/tasks`, {
@@ -250,44 +249,47 @@ export class ApiService {
       userId: userId,
       users: [userId],
     };
-    return this.http
-      .post(
-        `${backendDomain}boards/${boardId}/columns/${columnId}/tasks`,
-        taskData,
-        {
-          headers: this.getHeaders(),
-        }
-      )
+    return this.http.post(
+      `${backendDomain}boards/${boardId}/columns/${columnId}/tasks`,
+      taskData,
+      {
+        headers: this.getHeaders(),
+      }
+    );
   }
 
   updateTask(
     boardId: string,
     columnId: string,
+    taskId: string,
     taskTitle: string,
-    taskDescription: string
+    taskDescription: string,
+    taskOder: number
   ): Observable<any> {
     const userId = localStorage.getItem('user_id');
     const taskData = {
       title: taskTitle,
-      order: 0,
+      order: taskOder,
       description: taskDescription,
       userId: userId,
       users: [userId],
     };
-    return this.http
-      .put(
-        `${backendDomain}boards/${boardId}/columns/${columnId}/tasks`,
-        taskData,
-        {
-          headers: this.getHeaders(),
-        }
-      )
+    console.log('im updating')
+
+    console.log(taskData);
+    return this.http.put(
+      `${backendDomain}boards/${boardId}/columns/${columnId}/tasks/${taskId}`,
+      taskData,
+      {
+        headers: this.getHeaders(),
+      }
+    );
   }
 
   deleteTask(boardId: string, columnId: string, taskId: string) {
     return this.http
       .delete(
-        `${backendDomain}boards/${boardId}/columns/${columnId}/tasks/${taskId}  `,
+        `${backendDomain}boards/${boardId}/columns/${columnId}/tasks/${taskId}`,
         {
           headers: this.getHeaders(),
         }
